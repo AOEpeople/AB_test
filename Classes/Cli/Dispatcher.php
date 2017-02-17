@@ -145,7 +145,6 @@ class Dispatcher {
 			case 'ABTest':
 				/** @var \ABTestController $controllerInstance */
 				$controllerInstance
-					->setLinkRepository($this->getLinkRepository())
 					->setTestResultLogger($this->getFileLogger(PROJECT_ROOT . '/Log/failed-urls.log'))
 					->setCompareUtility($this->getCompareUtility());
 				break;
