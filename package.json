@@ -1,0 +1,18 @@
+{
+  "name": "migration-test",
+  "version": "1.0.0",
+  "dependencies": {
+    "phantomcss": "v0.11.1"
+  },
+  "description": "This document describes what you'll need and how to run the automated comparison of LIVE vs. Devbox",
+  "main": "casper-shot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:AOEpeople/AB_test.git"
+  },
+  "author": "Dragan Tomic, Dirk Rauscher, Deniz Dagtekin",
+  "license": "BSD-2-Clause"
+}

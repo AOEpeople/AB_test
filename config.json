@@ -1,0 +1,20 @@
+{
+  "global": {
+    "processors": {
+      "text": {
+        "substitute": {
+          "dummy-domain.com": "",
+          "~head\\-[a-zA-Z0-9]+\\.merged\\.gz\\.css~": "head-%c.merged.gz.css",
+          "~head\\-[a-zA-Z0-9]+\\.merged\\.gz\\.js~": "head-%c.merged.gz.js",
+          "~typo3temp/pics/[a-zA-Z0-9]+\\.~": "typo3temp/pics/%c.",
+          "~\"crdate\":\"[0-9]+\"~": "\"crdate\":\"0000000000\"",
+          "~\"tstamp\":\"[0-9]+\"~": "\"tstamp\":\"0000000000\""
+        }
+      }
+    }
+  },
+  "dummy-domain.com": {
+    "compareDomain": "dummy-domain.local",
+    "comparisonType": ["source"]
+  }
+}
