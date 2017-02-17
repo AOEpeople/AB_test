@@ -23,6 +23,7 @@
  ***************************************************************/
 
 require_once PROJECT_ROOT . 'Classes/Controller/AbstractController.php';
+require_once PROJECT_ROOT . 'Classes/Domain/Repository/LinkRepository.php';
 
 
 /**
@@ -125,9 +126,9 @@ class ABTestController extends AbstractController {
 	 * @return void
 	 */
 	public function defaultAction() {
-		$this->compareApiCallsAction();
 		$this->compareFrontendAction();
 	}
+
 
 	/**
 	 * Compare response from frontend requests.

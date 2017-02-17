@@ -25,6 +25,7 @@
 
 define('PROJECT_ROOT', realpath(__DIR__ . '/../../').'/');
 
+require_once PROJECT_ROOT . 'Classes/Domain/Repository/LinkRepository.php';
 require_once PROJECT_ROOT . 'Classes/Logger/Logger.php';
 require_once PROJECT_ROOT . 'Classes/Logger/ScreenLogger.php';
 require_once PROJECT_ROOT . 'Classes/Logger/FileLogger.php';
