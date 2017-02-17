@@ -115,7 +115,6 @@ class ABTestController extends AbstractController {
 		$configuration = $this->getConfiguration();
 
 		$this->compareUtility->setConfiguration($configuration);
-		$this->linkRepository->setConfiguration($configuration);
 
 		if (isset($this->arguments['max-fail-count'])) {
 			$this->setMaxFailCount($this->arguments['max-fail-count']);
