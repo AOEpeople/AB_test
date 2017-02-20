@@ -108,13 +108,12 @@ class ABTestController extends AbstractController {
 	public function setLinkRepository(LinkRepository $repository) {
 		$repository->setCacheDir(PROJECT_ROOT . 'Tmp/Cache/');
 		$this->linkRepository = $repository;
+		$this->linkRepository->setConfiguration($this->getConfiguration());
 		return $this;
 	}
 
 	public function initialize() {
-		$configuration = $this->getConfiguration();
-
-		$this->compareUtility->setConfiguration($configuration);
+		$this->compareUtility->setConfiguration($this->getConfiguration());
 
 		if (isset($this->arguments['max-fail-count'])) {
 			$this->setMaxFailCount($this->arguments['max-fail-count']);
