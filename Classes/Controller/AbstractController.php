@@ -85,7 +85,7 @@ abstract class AbstractController implements Controller {
 				$config = json_decode($configJSON, TRUE);
 				$this->configuration = is_array($config) ? $config : array();
 			} else {
-				$this->logger->log('Missing configuration file config.json!',Logger::LOG_WARNING);
+				$this->logger->log('Missing configuration file config.json or config file not UTF-8 encoded!',Logger::LOG_WARNING);
 			}
 		}
 
