@@ -183,6 +183,52 @@ class ABTestController extends AbstractController {
 	}
 
 	/**
+	 * Compare source code.
+	 *
+	 * @return void
+	 */
+	public function compareSourceAction() {
+		$comparisonDomains = $this->getComparisonDomains(self::CMP_TYPE_SOURCE);
+		$apiRequests = $this->linkRepository->getApiComparisonLinks(array_keys($comparisonDomains));
+
+		if (($requestCount = $apiRequests->rowCount())) {
+			$failCount = 0;
+
+			$this->logger->log('Found ' . $requestCount . ' API requests for comparison.');
+			$this->logger->log('Start comparing API Calls');
+
+			foreach ($apiRequests as $i => $request) {
+				if (($i % 100) == 0) {
+					$this->logger->log(sprintf('Processing %5s ... %s', ($i + 1), ($i + 100)));
+				}
+
+				$originalUrl = 'http://' . $request['host'] . $request['request'];
+				$compareUrl  = 'http://' . $comparisonDomains[$request['host']] . $request['request'];
+
+				$this->logger->log('Comparing URI: ' . $request['request'], Logger::LOG_DEBUG);
+				$this->logger->log('Begin text compare...', Logger::LOG_DEBUG);
+
+				if (!$this->compare($originalUrl, $compareUrl)) {
+					$failCount++;
+
+					if ($failCount >= $this->maxFailCount) {
+						$this->logger->log('Maximum failed count limit of ' . $this->maxFailCount . ' reached.');
+						$this->logger->log('Discarding further processing.');
+						break;
+					}
+				}
+			}
+
+			$this->logger->log('Finished API Calls comparison');
+
+			if ($failCount) {
+				$this->logger->log('Fail count: ' . $failCount);
+			}
+		}
+	}
+
+
+	/**
 	 * Get domains to compare.
 	 *
 	 * @param  string $comparisonType

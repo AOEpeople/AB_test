@@ -89,14 +89,18 @@ class Dispatcher {
 	protected function parseArguments() {
 		$args = getopt('c:a:h:u:p:d:', array('log-level::', 'max-fail-count::', 'ignore-cache::', 'url::'));
 
-		if ((!isset($args['c']))
-			|| (!isset($args['u']))
-			|| (!isset($args['p']))
-			|| (!isset($args['d']))) {
-
+		if (!isset($args['c'])) {
 			$this->displayUsageAndExit();
 		}
 
+//		if ((!isset($args['c']))
+//			|| (!isset($args['u']))
+//			|| (!isset($args['p']))
+//			|| (!isset($args['d']))) {
+//
+//			$this->displayUsageAndExit();
+//		}
+//
 		$this->arguments = $args;
 	}
 
@@ -203,9 +207,10 @@ class Dispatcher {
 		$linkRepository = new LinkRepository();
 		$linkRepository->setLogger($this->logger);
 
-		$dbAdapter = $this->getMysqlAdapter();
-		$dbAdapter->setLogger($this->logger);
-		$linkRepository->setDbAdapter($dbAdapter);
+			// not needed anymore
+		#$dbAdapter = $this->getMysqlAdapter();
+		#$dbAdapter->setLogger($this->logger);
+		#$linkRepository->setDbAdapter($dbAdapter);
 
 		$linkRepository->setLinkParser($this->getLinkParser());
 
@@ -247,7 +252,7 @@ class Dispatcher {
 		echo 'Usage:' . PHP_EOL .
 		     'php Dispatch.php -c ABTest [-a <compareApiCalls|compareFrontend>] ' .
 		     '[--url=<primary url> --url=<primary url>] ' .
-		     '-u<db username > -p <db password> -d<db name> [-h<db hostname>] ' .
+		     //'-u<db username > -p <db password> -d<db name> [-h<db hostname>] ' .
 		     '[--log-level=<log level>] [--max-fail-count=<fail count>]' .
 		     '[--ignore-cache]' . PHP_EOL . PHP_EOL;
 		exit(1);
