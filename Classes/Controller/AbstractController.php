@@ -81,9 +81,11 @@ abstract class AbstractController implements Controller {
 			$configurationFile = PROJECT_ROOT . self::CONFIG_FILENAME;
 
 			if (file_exists($configurationFile)) {
-				$configJSON = file_get_contents(PROJECT_ROOT . 'config.json');
+				$configJSON = file_get_contents($configurationFile);
 				$config = json_decode($configJSON, TRUE);
 				$this->configuration = is_array($config) ? $config : array();
+			} else {
+				$this->logger->log('Missing configuration file config.json!',Logger::LOG_WARNING);
 			}
 		}
 
