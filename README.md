@@ -16,30 +16,30 @@ For the screenshot comparison we have the following binary requirements:
 
 ## Automated FE Test
 
-Simply run:
------------------------------------------
-npm install
-export PHANTOMJS_EXECUTABLE=${WORKSPACE}/node_modules/phantomcss/node_modules/phantomjs/bin/phantomjs;
-php Classes/Cli/Dispatcher.php -c ABTest -a compareFrontend --url=http://dummy-domain.com --log-level=1 --max-fail-count=1000
------------------------------------------
+#####Simply run:
+
+    npm install
+    export PHANTOMJS_EXECUTABLE=${WORKSPACE}/node_modules/phantomcss/node_modules/phantomjs/bin/phantomjs;
+    php Classes/Cli/Dispatcher.php -c ABTest -a compareFrontend --url=http://dummy-domain.com --log-level=1 --max-fail-count=1000
+
 
 To let the defined URL be tested it HAS to be defined in config.json file:
 e.g.
 
-  "dummy-domain.com":{
-    "compareDomain":"www.deploy.dummy-domain.aoe.host",
-    "comparisonType":[
-      "frontend",
-      "source"
-    ]
-  },
-  "www.dummy2.de":{
-    "compareDomain":"www.deploy.dummy2.aoe.host",
-    "comparisonType":[
-      "frontend",
-      "source"
-    ]
-  }  
+    "dummy-domain.com":{
+        "compareDomain":"www.deploy.dummy-domain.aoe.host",
+        "comparisonType":[
+            "frontend",
+            "source"
+        ]
+    },
+    "www.dummy2.de":{
+        "compareDomain":"www.deploy.dummy2.aoe.host",
+        "comparisonType":[
+            "frontend",
+            "source"
+        ]
+    }
 
 The config.json file must be located in the project's repository folder
 
