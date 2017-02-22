@@ -98,7 +98,7 @@ class ABTestController extends AbstractController
     public function setMaxFailCount($maxFailCount = NULL)
     {
         if (isset($this->arguments['max-fail-count'])) {
-            $maxFailCount = int($this->arguments['max-fail-count']);
+            $maxFailCount = intval($this->arguments['max-fail-count']);
         }
 
         $maxFailCount = filter_var(
