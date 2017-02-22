@@ -28,70 +28,81 @@ require_once PROJECT_ROOT . 'Classes/Controller/Controller.php';
 /**
  * @author Chetan Thapliyal <chetan.thapliyal@aoe.com>
  */
-abstract class AbstractController implements Controller {
+abstract class AbstractController implements Controller
+{
 
-	const CONFIG_FILENAME = 'config.json';
+    const CONFIG_FILENAME = 'config.json';
 
-	/**
-	 * @var array
-	 */
-	private $configuration;
+    /**
+     * @var array
+     */
+    private $configuration;
 
-	/**
-	 * Request arguments
-	 * @var array
-	 */
-	protected $arguments = array();
+    /**
+     * Request arguments
+     * @var array
+     */
+    protected $arguments = array();
 
-	/**
-	 * @var Logger
-	 */
-	protected $logger;
+    /**
+     * @var Logger
+     */
+    protected $logger;
 
-	public function setArguments(array $arguments) {
-		$this->arguments = $arguments;
-	}
+    /**
+     * Receive given arguments from command call parameters
+     * @param array $arguments
+     */
+    public function setArguments(array $arguments)
+    {
+        $this->arguments = $arguments;
+    }
 
-	/**
-	 * @param  Logger $logger
-	 * @return $this
-	 */
-	public function setLogger(Logger $logger) {
-		$this->logger = $logger;
-		return $this;
-	}
+    /**
+     * @param  Logger $logger
+     * @return $this
+     */
+    public function setLogger(Logger $logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
 
-	public function initialize() {
-		// to be overridden in concrete controller instance
-	}
+    public function initialize()
+    {
+        // to be overridden in concrete controller instance
+    }
 
-	/**
-	 * Default action
-	 */
-	public function defaultAction() {
-		// to be overridden in concrete controller instance
-	}
+    /**
+     * Default action
+     */
+    public function defaultAction()
+    {
+        // to be overridden in concrete controller instance
+    }
 
-	/**
-	 * @return array
-	 */
-	protected function getConfiguration() {
-		if (!is_array($this->configuration)) {
-			$this->configuration = array();
-			$configurationFile = PROJECT_ROOT . self::CONFIG_FILENAME;
+    /**
+     * @return array
+     */
+    protected function getConfiguration()
+    {
+        if (!is_array($this->configuration)) {
+            $this->configuration = array();
+            $configurationFile = PROJECT_ROOT . self::CONFIG_FILENAME;
 
-			if (file_exists($configurationFile)) {
-				$configJSON = file_get_contents($configurationFile);
-				$config = json_decode($configJSON, TRUE);
-				if (json_last_error() > 0) {
-					$this->logger->log("config.json file error:\r\n" . json_last_error_msg(),Logger::LOG_DEBUG);
-				}
-				$this->configuration = is_array($config) ? $config : array();
-			} else {
-				$this->logger->log('Missing configuration file config.json or config file not UTF-8 encoded!',Logger::LOG_WARNING);
-			}
-		}
+            if (file_exists($configurationFile)) {
+                $configJSON = file_get_contents($configurationFile);
+                $config = json_decode($configJSON, TRUE);
+                if (json_last_error() > 0) {
+                    $this->logger->log("config.json file error:\r\n" . json_last_error_msg(), Logger::LOG_DEBUG);
+                    throw new \Exception('JSON DECODE ERROR: ' . json_last_error_msg(), 80983459);
+                }
+                $this->configuration = is_array($config) ? $config : array();
+            } else {
+                $this->logger->log('Missing configuration file config.json!', Logger::LOG_WARNING);
+            }
+        }
 
-		return $this->configuration;
-	}
+        return $this->configuration;
+    }
 }
