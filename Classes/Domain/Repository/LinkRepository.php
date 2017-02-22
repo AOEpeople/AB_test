@@ -67,11 +67,13 @@ class LinkRepository {
 	 * @param string $dir
 	 */
 	public function setCacheDir($dir) {
-		if (is_dir($dir) && is_writable($dir)) {
-			$this->cacheDir = $dir;
-		} else {
+		if (!is_dir($dir)) {
+			mkdir($dir,0755,true);
+		}
+		if (!is_writable($dir)) {
 			$this->logger->log($dir . ': Directory either does not exits or not writable.', Logger::LOG_DEBUG);
 		}
+		$this->cacheDir = $dir;
 	}
 
 	/**
