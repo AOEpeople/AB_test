@@ -173,7 +173,7 @@ class ABTestController extends AbstractController
                     $failCount++;
 
                     $this->logger->log('Failure!', Logger::LOG_DEBUG);
-                    $logMsg = sprintf("Additional info ...\nOriginal URL: %s\nCompare URL: %s\n\n", $originalUrl, $compareUrl);
+                    $logMsg = sprintf("Screenshot comparison info ...\nOriginal URL: %s\nCompare URL: %s\n\n", $originalUrl, $compareUrl);
                     $this->testResultLogger->log($logMsg);
                     $this->logger->log($logMsg, Logger::LOG_DEBUG);
                 }
@@ -255,7 +255,7 @@ class ABTestController extends AbstractController
         if ($failure == TRUE) {
             $failureReason = $failureReason ? $failureReason : 'Text comparison failure!';
             $logMsg = sprintf(
-                "Additional info ...\nOriginal URL: %s\nCompare URL: %s\nDiff: %s\n",
+                "Text comparison info ...\nOriginal URL: %s\nCompare URL: %s\nDiff: %s\n",
                 $originalUrl,
                 $compareUrl,
                 $diff
