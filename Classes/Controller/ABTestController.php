@@ -99,13 +99,13 @@ class ABTestController extends AbstractController
     {
         if (isset($this->arguments['max-fail-count'])) {
             $maxFailCount = intval($this->arguments['max-fail-count']);
+            $maxFailCount = filter_var(
+                $maxFailCount,
+                FILTER_VALIDATE_INT,
+                array('options' => array('min_range' => 1, 'default' => self::DEFAULT_MAX_FAIL_COUNT))
+            );
         }
 
-        $maxFailCount = filter_var(
-            $maxFailCount,
-            FILTER_VALIDATE_INT,
-            array('options' => array('min_range' => 1, 'default' => self::DEFAULT_MAX_FAIL_COUNT))
-        );
         $this->maxFailCount = $maxFailCount;
     }
 
@@ -164,7 +164,9 @@ class ABTestController extends AbstractController
 
                 $this->logger->log('Comparing URI: ' . $path, Logger::LOG_DEBUG);
 
-                $this->compare($originalUrl, $compareUrl);
+                    // do a text comparison first...
+                $text_comparison_ok = $this->compare($originalUrl, $compareUrl);
+                $failCount += ($text_comparison_ok == FALSE) ? 1 : 0;
 
                 $this->logger->log('Create Screenshot...', Logger::LOG_DEBUG);
                 if (!$this->compareUtility->compareScreenshot($originalUrl, $compareUrl)) {
@@ -174,19 +176,21 @@ class ABTestController extends AbstractController
                     $logMsg = sprintf("Additional info ...\nOriginal URL: %s\nCompare URL: %s\n\n", $originalUrl, $compareUrl);
                     $this->testResultLogger->log($logMsg);
                     $this->logger->log($logMsg, Logger::LOG_DEBUG);
-
-                    if ($failCount >= $this->maxFailCount) {
-                        $this->logger->log('Maximum failed count limit of ' . $this->maxFailCount . ' reached.');
-                        $this->logger->log('Discarding further processing.');
-                        break;
-                    }
                 }
+
+                if ($failCount >= $this->maxFailCount && !is_null($this->maxFailCount)) {
+                    $this->logger->log('Maximum failed count limit of ' . $this->maxFailCount . ' reached.');
+                    $this->logger->log('Discarding further processing.');
+                    break;
+                }
+
             }
 
             $this->logger->log('Finished FE comparison');
 
             if ($failCount > 0) {
                 $this->logger->log('Fail count: ' . $failCount);
+                exit(1);
             }
         }
     }
